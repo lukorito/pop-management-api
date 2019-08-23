@@ -13,13 +13,15 @@ import {
 	locationNameValidator,
 	maleValidator,
 	femaleValidator,
+	emailValidator,
+	usernameValidator
 } from "../middlewares/validatorMiddleware";
 
 const router = express.Router();
 
 // auth
-router.post("/register", signup);
-router.post("/login", login);
+router.post("/register", emailValidator, usernameValidator, signup);
+router.post("/login", emailValidator, login);
 
 // location
 router.post(

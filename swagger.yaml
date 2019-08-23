@@ -1,314 +1,207 @@
-#swagger: '2.0'
-#info:
-#  description: 'This is an api to add contacts and send and receive messages to their contact lists. When adding auth header click on the authorize button and add the authentication header in this format `Bearer JWT-token`'
-#  version: 1.0.0
-#  title: SMS Management API
-#  contact:
-#    email: kelvin.lukorito@andela.com
-#  license:
-#    name: Apache 2.0
-#basePath: /api
-#tags:
-#  - name: Auth
-#    description: Authentication
-#  - name: Contacts
-#    description: Operations about contacts
-#  - name: Messages
-#    description: Operations about messages
-#schemes:
-#  - https
-#  - http
-#securityDefinitions:
-#  Bearer:
-#    type: apiKey
-#    name: Authorization
-#    in: header
-#paths:
-#  /register:
-#    post:
-#      tags:
-#        - Auth
-#      summary: Creates a new user.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - in: body
-#          name: user
-#          description: The user to create.
-#          schema:
-#            type: object
-#            required:
-#              - username
-#              - phoneNumber
-#            properties:
-#              username:
-#                type: string
-#              phoneNumber:
-#                type: string
-#              password:
-#                type: string
-#      responses:
-#        201:
-#          description: Created
-#        400:
-#          description: Invalid details
-#  /login:
-#    post:
-#      tags:
-#        - Auth
-#      summary: Login a created user.
-#      consumes:
-#        - application/json
-#      produces:
-#        - application/json
-#      parameters:
-#        - in: body
-#          name: user
-#          description: User details.
-#          schema:
-#            type: object
-#            required:
-#              - phoneNumber
-#              - password
-#            properties:
-#              phoneNumber:
-#                type: string
-#              password:
-#                type: string
-#      responses:
-#        200:
-#          description: OK
-#        400:
-#          description: Invalid details
-#  /contact:
-#    post:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Contacts
-#      summary: Create a new contact.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - in: body
-#          name: user
-#          description: Contact details.
-#          schema:
-#            type: object
-#            required:
-#              - phoneNumber
-#              - username
-#            properties:
-#              phoneNumber:
-#                type: string
-#              username:
-#                type: string
-#      responses:
-#        201:
-#          description: Created
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
-#    get:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Contacts
-#      summary: Get all contacts created by a user.
-#      produces:
-#        - application/json
-#      responses:
-#        200:
-#          description: OK
-#        401:
-#          description: Unauthorized
-#        500:
-#          description: Error
-#  '/contact/{phoneNumber}':
-#    get:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Contacts
-#      summary: Get one contact detail
-#      produces:
-#        - application/json
-#      parameters:
-#        - name: phoneNumber
-#          in: path
-#          description: Contact's phone number
-#          required: true
-#          type: string
-#      responses:
-#        201:
-#          description: Created
-#        401:
-#          description: Unauthorized
-#    put:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Contacts
-#      summary: Update a contact's details.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - in: path
-#          name: phoneNumber
-#          description: Contact's phone number
-#          required: true
-#          type: string
-#        - in: body
-#          name: user
-#          description: Contact new username.
-#          schema:
-#            type: object
-#            required:
-#              - username
-#            properties:
-#              username:
-#                type: string
-#      responses:
-#        200:
-#          description: OK
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
-#    delete:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Contacts
-#      summary: Delete a contact detail.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - in: path
-#          name: phoneNumber
-#          description: Contact's phone number
-#          required: true
-#          type: string
-#      responses:
-#        200:
-#          description: OK
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
-#  /message:
-#    post:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Messages
-#      summary: Send a new message
-#      consumes:
-#        - application/json
-#      parameters:
-#        - in: body
-#          name: user
-#          description: Receiver phone details
-#          schema:
-#            type: object
-#            required:
-#              - receiver
-#              - text
-#            properties:
-#              receiver:
-#                type: string
-#              text:
-#                type: string
-#      responses:
-#        201:
-#          description: Created
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
-#    get:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Messages
-#      summary: Get all messages
-#      produces:
-#        - application/json
-#      responses:
-#        201:
-#          description: Created
-#        401:
-#          description: Unauthorized
-#  '/message/{id}':
-#    get:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Messages
-#      summary: get one message
-#      produces:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: 'Message id'
-#          required: true
-#          type: string
-#      responses:
-#        201:
-#          description: Created
-#        401:
-#          description: Unauthorized
-#    put:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Messages
-#      summary: Update a message
-#      consumes:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: 'Message id'
-#          required: true
-#          type: string
-#        - in: body
-#          name: message
-#          description: updated text details
-#          schema:
-#            type: object
-#            required:
-#              - text
-#            properties:
-#              text:
-#                type: string
-#      responses:
-#        200:
-#          description: OK
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
-#    delete:
-#      security:
-#        - Bearer: []
-#      tags:
-#        - Messages
-#      summary: Update a message
-#      consumes:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: 'Message id'
-#          required: true
-#          type: string
-#      responses:
-#        200:
-#          description: OK
-#        400:
-#          description: Invalid details
-#        401:
-#          description: Unauthorized
+swagger: '2.0'
+info:
+  description: 'This is an api that allows users to manage population of a region based on the number of male and female. When adding auth header click on the authorize button and add the authentication header in this format `Bearer JWT-token`'
+  version: 1.0.0
+  title: Population Management System
+  contact:
+    email: kelvin.lukorito@andela.com
+  license:
+    name: Apache 2.0
+basePath: /api
+tags:
+  - name: Auth
+    description: Authentication
+  - name: Location
+    description: Operations about location
+schemes:
+  - https
+  - http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /register:
+    post:
+      tags:
+        - Auth
+      summary: Creates a new user.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+            required:
+              - username
+              - email
+              - password
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        201:
+          description: Created
+        400:
+          description: Invalid details
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login an existing user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: User details.
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid details
+  /location:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Location
+      summary: Create a new location.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: location
+          description: Location details.
+          schema:
+            type: object
+            required:
+              - locationName
+              - male
+              - female
+            properties:
+              locationName:
+                type: string
+              male:
+                type: string
+              female:
+                type: string
+              parentId:
+                type: string
+      responses:
+        201:
+          description: Created
+        400:
+          description: Invalid details
+        401:
+          description: Unauthorized
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Location
+      summary: Get all locations.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        500:
+          description: Error
+  '/location/{id}':
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Location
+      summary: Get one location detail
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The Location Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: Created
+        401:
+          description: Unauthorized
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Location
+      summary: Update a location's details.
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The Location Id
+          required: true
+          type: string
+        - in: body
+          name: location
+          description: Location new details
+          schema:
+            type: object
+            properties:
+              locationName:
+                type: string
+              male:
+                type: string
+              female:
+                type: string
+              parentId:
+                type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid details
+        401:
+          description: Unauthorized
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Location
+      summary: Delete a location.
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: Id
+          description: The Location Id
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid details
+        401:
+          description: Unauthorized
