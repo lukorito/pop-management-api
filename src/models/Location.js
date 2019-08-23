@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const locationSchema = new mongoose.Schema({
 	parentLocationId: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
 		max: 255,
 	},
 	locationName: {

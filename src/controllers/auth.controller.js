@@ -17,7 +17,7 @@ export function signup(req, res, next) {
 
 			user.save(function(err) {
 				if (err) {
-					res.status(500).json({ message: "An error has occured" });
+					res.status(500).json({ message: "An error has occurred" });
 				} else {
 					res.status(201).json({
 						message: "User successfully created",

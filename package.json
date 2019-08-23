@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run prod",
-    "server": "babel-node src/index.js",
+    "start:dev": "nodemon --exec babel-node src/index.js",
     "server:prod": "node ./dist/index.js",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
